@@ -1,6 +1,7 @@
 # asdf-java
 
 ![travis ci](https://travis-ci.org/skotchpine/asdf-java.svg?branch=master)
+[Travis Build](https://travis-ci.org/skotchpine/asdf-java)
 
 [Java](https://www.java.com/en/) plugin for the [asdf](https://github.com/asdf-vm/asdf) version manager.
 
@@ -10,19 +11,34 @@ After installing [asdf](https://github.com/asdf-vm/asdf),
 you can add this plugin like this:
 
 ```bash
-asdf plugin-add java https://github.com/skotchpine/asdf-java
+asdf plugin-add java
 ```
 
 and install new versions like this:
 
 ```bash
-asdf install java 9.0.1
+asdf install java oracle-10.0.2
 ```
 
 and switch versions like this:
 
 ```bash
-asdf global java 9.0.1
+asdf global java oracle-10.0.2
+```
+
+If you want or need JAVA_HOME set you can add this to your shell initialization (in `.bashrc`, for example):
+
+```bash
+asdf_update_java_home() {
+  local current
+  if current=$(asdf current java); then
+    local version=$(echo $current | sed -e 's|\(.*\) \?(.*|\1|g')
+    export JAVA_HOME=$(asdf where java $version)
+  else
+    echo "No java version set. Type `asdf list-all java` for all versions."
+  fi
+}
+asdf_update_java_home
 ```
 
 If you need Gradle or Maven, you can use asdf plugins for those, too.
